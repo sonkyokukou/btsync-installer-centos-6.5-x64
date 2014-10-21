@@ -1,3 +1,5 @@
+(The original author is iseem. https://github.com/iseem/btsyncbox)
+
 # Create a Remote BitTorrent Sync Server
 
 __This one-line installer makes it easy to set up BitTorrent Sync on a remote CentOS server.__
@@ -13,7 +15,13 @@ This script has been tested on a __CentOS 6.5 x64__ droplet on [DigitalOcean](ht
 Once you have your new server's IP address and root password, `ssh` to your server. Then copy and paste the `curl` command below.
 
 ```
-curl -L https://raw.githubusercontent.com/iseem/btsyncbox/master/centos6.5_x64/Makefile > Makefile && make
+curl -L https://raw.githubusercontent.com/louislam/btsyncbox/master/centos6.5_x64/Makefile > Makefile && make
+```
+
+Remarks by Louis: If you have installed EPEL or fail2ban, try this.
+
+```
+curl -L https://raw.githubusercontent.com/louislam/btsyncbox/master/centos6.5_x64/Makefile > Makefile && make base
 ```
 
 The script will take a few minutes to run. If all goes well, your `ssh` connection will be terminated and you will see something like this:
