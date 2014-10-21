@@ -18,7 +18,7 @@ Once you have your new server's IP address and root password, `ssh` to your serv
 curl -L https://raw.githubusercontent.com/louislam/btsyncbox/master/centos6.5_x64/Makefile > Makefile && make
 ```
 
-Remarks by Louis: If you have installed EPEL or fail2ban, try this.
+(Remarks by Louis) If you have installed EPEL and fail2ban, try this.
 
 ```
 curl -L https://raw.githubusercontent.com/louislam/btsyncbox/master/centos6.5_x64/Makefile > Makefile && make base
