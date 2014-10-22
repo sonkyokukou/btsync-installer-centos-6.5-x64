@@ -1,6 +1,6 @@
 (The original author is iseem. https://github.com/iseem/btsyncbox)
 
-# Create a Remote BitTorrent Sync Server
+# Install Bittorrent Sync on CentOS 6.5 x64
 
 __This one-line installer makes it easy to set up BitTorrent Sync on a remote CentOS server.__
 
