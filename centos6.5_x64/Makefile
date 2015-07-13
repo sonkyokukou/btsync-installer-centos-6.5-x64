@@ -12,6 +12,16 @@ define BT_SYNC_CONFIG
 }
 endef
 
+define BT_SYNC_SUPERVISORD
+[program:btsync]
+command=sudo -u www-data /usr/local/btsync/btsync --config /etc/btsync/sync.conf
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s_error.log
+endef
+
 # If you change port numbers, be sure to change the corresponding 
 # lines in the BT_SYNC_CONFIG. Port 45712 is for BitTorrent, and
 # 8888 is for the BTSync web interface.
@@ -39,12 +49,12 @@ export BT_SYNC_CONFIG IPTABLES_CONFIG
 # Finally, it will install BTSync and then reboot to make sure everything 
 # comes up properly after a restart.
 .PHONY: all
-all: update epel firewall fail2ban btsync clean reboot
+all: update epel firewall fail2ban cust setuser btsync clean reboot
 
 # If you object to installing EPEL, you can run a less opinionated routine 
 # with 'make base' instead of 'make'.
 .PHONY: base
-base: update firewall btsync clean reboot
+base: update firewall cust setuser btsync clean reboot
 
 .PHONY: update
 update:
@@ -66,15 +76,25 @@ fail2ban:
 	yum -y install fail2ban
 	cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 	chkconfig fail2ban on
+	
+.PHONY: cust
+cust:
+	yum -y install tar sudo
+	
+.PHONY: setuser
+setuser:
+	useradd www-data -u 33 -s /sbin/nologin -g tape
+	mkdir -p /usr/local/btsync
+	chown -R 33:33 /usr/local/btsync
 
 .PHONY: btsync
 btsync:
 	curl -L http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable > btsync.tar
 	tar -xvf btsync.tar
-	mv btsync /usr/bin/
+	mv btsync /usr/local/btsync/
 	mkdir -p /etc/btsync
 	echo "$$BT_SYNC_CONFIG" > /etc/btsync/sync.conf
-	echo "/usr/bin/btsync --config /etc/btsync/sync.conf" >> /etc/rc.d/rc.local
+	echo "$$BT_SYNC_SUPERVISORD" > /etc/supervisor/conf.d/sync.conf
 
 .PHONY: clean
 clean:
