@@ -92,6 +92,7 @@ btsync:
 	curl -L http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable > btsync.tar
 	tar -xvf btsync.tar
 	mv btsync /usr/local/btsync/
+	chown 33:33 /usr/local/btsync/btsync
 	mkdir -p /etc/btsync
 	echo "$$BT_SYNC_CONFIG" > /etc/btsync/sync.conf
 	echo "$$BT_SYNC_SUPERVISORD" > /etc/supervisor/conf.d/sync.conf
