@@ -89,8 +89,8 @@ setuser:
 
 .PHONY: btsync
 btsync:
-	curl -L http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable > btsync.tar
-	tar -xvf btsync.tar
+	curl -L http://syncapp.bittorrent.com/1.4.111/btsync_x64-1.4.111.tar.gz > btsync.tar.gz
+	tar -zxvf btsync.tar.gz
 	mv btsync /usr/local/btsync/
 	chown 33:33 /usr/local/btsync/btsync
 	mkdir -p /etc/btsync
