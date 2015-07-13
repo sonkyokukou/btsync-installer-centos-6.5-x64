@@ -12,16 +12,6 @@ define BT_SYNC_CONFIG
 }
 endef
 
-define BT_SYNC_SUPERVISORD
-[program:btsync]
-command=sudo -u www-data /usr/local/btsync/btsync --config /etc/btsync/sync.conf
-autostart=true
-autorestart=true
-redirect_stderr=true
-stdout_logfile=/var/log/supervisor/%(program_name)s.log
-stderr_logfile=/var/log/supervisor/%(program_name)s_error.log
-endef
-
 # If you change port numbers, be sure to change the corresponding 
 # lines in the BT_SYNC_CONFIG. Port 45712 is for BitTorrent, and
 # 8888 is for the BTSync web interface.
@@ -41,7 +31,17 @@ define IPTABLES_CONFIG
 COMMIT
 endef
 
-export BT_SYNC_CONFIG IPTABLES_CONFIG
+define BT_SYNC_SUPERVISORD
+[program:btsync]
+command=sudo -u www-data /usr/local/btsync/btsync --config /etc/btsync/sync.conf
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+stderr_logfile=/var/log/supervisor/%(program_name)s_error.log
+endef
+
+export BT_SYNC_CONFIG IPTABLES_CONFIG BT_SYNC_SUPERVISORD
 
 # This is the default setup routine. It will update the server and add the 
 # Fedora EPEL packages. It will then configure the iptables firewall and 
