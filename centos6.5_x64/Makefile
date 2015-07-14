@@ -83,7 +83,7 @@ cust:
 	
 .PHONY: setuser
 setuser:
-	useradd www-data -u 33 -s /sbin/nologin -g tape
+	useradd www-data -u 33 -s /sbin/nologin -g tape -m /home/www-data
 	mkdir -p /usr/local/btsync
 	chown -R 33:33 /usr/local/btsync
 
